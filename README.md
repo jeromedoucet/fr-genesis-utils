@@ -1,4 +1,9 @@
-org.genesis.utils
+#org.genesis.utils
 =================
 
-Some java class that maybee useful.
+Some utils features using Java 8 facilities.
+
+##Requirement
+=================
+
+java 8

@@ -58,7 +58,7 @@ public class GenericFilter<I> implements Filter<I> {
 
     @Override
     public void onFailure(I input) {
-        if (onFailure != null) {
+        if (onFailure != null && input != null) {
             onFailure.accept(input);
         }
     }
@@ -68,8 +68,6 @@ public class GenericFilter<I> implements Filter<I> {
         return "GenericFilter{" + "doIt=" + doIt + ", onFailure=" + onFailure + '}';
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -96,6 +94,4 @@ public class GenericFilter<I> implements Filter<I> {
         return true;
     }
 
-    
-    
 }

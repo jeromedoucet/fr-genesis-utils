@@ -35,10 +35,10 @@ import org.junit.Test;
  */
 public class BasicChainTest {
 
-    private Function<Runnable, FilterResult> successfullDoIt;
-    private Function<Runnable, FilterResult> failureDoIt;
-    private Consumer<Runnable> onFailureAvailable;
-    private Consumer<Runnable> onFailureForbidden;
+    private Function<InputWrapper<Runnable, Object>, FilterResult> successfullDoIt;
+    private Function<InputWrapper<Runnable, Object>, FilterResult> failureDoIt;
+    private Consumer<InputWrapper<Runnable, Object>> onFailureAvailable;
+    private Consumer<InputWrapper<Runnable, Object>> onFailureForbidden;
 
     public BasicChainTest() {
     }
@@ -53,24 +53,24 @@ public class BasicChainTest {
 
     @Before
     public void setUp() {
-        successfullDoIt = (Runnable r) -> {
-            r.run();
+        successfullDoIt = (InputWrapper<Runnable, Object> w) -> {
+            w.getInput().run();
             Assert.assertTrue(true);
             return () -> {
                 return true;
             };
         };
-        failureDoIt = (Runnable r) -> {
-            r.run();
+        failureDoIt = (InputWrapper<Runnable, Object> w) -> {
+            w.getInput().run();
             Assert.assertTrue(true);
             return () -> {
                 return false;
             };
         };
-        onFailureAvailable = (Runnable r) -> {
+        onFailureAvailable = (InputWrapper<Runnable, Object> w) -> {
             Assert.assertTrue(true);
         };
-        onFailureForbidden = (Runnable r) -> {
+        onFailureForbidden = (InputWrapper<Runnable, Object> w) -> {
             Assert.fail();
         };
     }
@@ -85,9 +85,9 @@ public class BasicChainTest {
     @Test
     public void testAdd() {
         System.out.println("add Test");
-        Filter<Runnable> filter = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
-        Chain<Runnable> result = instance.add(filter);
+        Filter<Runnable, Object> filter = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
+        Chain<Runnable, Object> result = instance.add(filter);
         assertEquals(instance, result);
         assertEquals(filter, instance.toList().get(0));
     }
@@ -98,10 +98,10 @@ public class BasicChainTest {
     @Test
     public void testAddFirst() {
         System.out.println("addFirst Test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
-        Chain<Runnable> result = instance.addFirst(filter1);
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
+        Chain<Runnable, Object> result = instance.addFirst(filter1);
         assertEquals(instance, result);
         result = instance.addFirst(filter2);
         assertEquals(instance, result);
@@ -114,10 +114,10 @@ public class BasicChainTest {
     @Test
     public void testAddLast() {
         System.out.println("addLast Test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
-        Chain<Runnable> result = instance.addLast(filter1);
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
+        Chain<Runnable, Object> result = instance.addLast(filter1);
         assertEquals(instance, result);
         result = instance.addLast(filter2);
         assertEquals(instance, result);
@@ -130,10 +130,10 @@ public class BasicChainTest {
     @Test
     public void testAddBefore() {
         System.out.println("addBefore Test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
-        Chain<Runnable> result = instance.add(filter1);
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
+        Chain<Runnable, Object> result = instance.add(filter1);
         assertEquals(instance, result);
         result = instance.addBefore(filter2, filter1);
         assertEquals(instance, result);
@@ -146,10 +146,10 @@ public class BasicChainTest {
     @Test
     public void testAddAfter() {
         System.out.println("addAfter Test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
-        Chain<Runnable> result = instance.add(filter1);
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
+        Chain<Runnable, Object> result = instance.add(filter1);
         assertEquals(instance, result);
         result = instance.addAfter(filter2, filter1);
         assertEquals(instance, result);
@@ -162,12 +162,12 @@ public class BasicChainTest {
     @Test
     public void testRemoveFirst() {
         System.out.println("removeFirst Test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
         instance.add(filter1);
         instance.add(filter2);
-        Chain<Runnable> result = instance.removeFirst();
+        Chain<Runnable, Object> result = instance.removeFirst();
         assertEquals(instance, result);
         assertEquals(filter2, instance.toList().get(0));
     }
@@ -178,12 +178,12 @@ public class BasicChainTest {
     @Test
     public void testRemoveLast() {
         System.out.println("removeLast Test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
         instance.add(filter1);
         instance.add(filter2);
-        Chain<Runnable> result = instance.removeLast();
+        Chain<Runnable, Object> result = instance.removeLast();
         assertEquals(instance, result);
         assertEquals(filter1, instance.toList().get(0));
     }
@@ -194,12 +194,12 @@ public class BasicChainTest {
     @Test
     public void testRemove() {
         System.out.println("remove Test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(failureDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
         instance.add(filter1);
         instance.add(filter2);
-        Chain<Runnable> result = instance.remove(0);
+        Chain<Runnable, Object> result = instance.remove(0);
         assertEquals(instance, result);
         assertEquals(filter2, instance.toList().get(0));
     }
@@ -210,13 +210,14 @@ public class BasicChainTest {
     @Test
     public void testRunSuccessFullAndIgnoreFailure() {
         System.out.println("RunSuccessFullAndIgnoreFailure test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureForbidden);
-        Filter<Runnable> filter2 = new GenericFilter(successfullDoIt, onFailureForbidden);
-        Chain<Runnable> instance = new BasicChain();
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureForbidden);
+        Filter<Runnable, Object> filter2 = new GenericFilter(successfullDoIt, onFailureForbidden);
+        Chain<Runnable, Object> instance = new BasicChain();
         instance.add(filter1);
         instance.add(filter2);
         List<Object> count = new ArrayList<>();
-        instance.run(ChainBehavior.IGNORE_FAILURE, () -> count.add(new Object()));
+        InputWrapper<Runnable, Object> wrapper = new InputWrapper<>(() -> count.add(new Object()), new Object());
+        instance.run(ChainBehavior.IGNORE_FAILURE, wrapper);
         Assert.assertTrue(count.size() == 2);
     }
 
@@ -226,13 +227,14 @@ public class BasicChainTest {
     @Test
     public void testRunFailureAndIgnoreFailure() {
         System.out.println("RunFailureAndIgnoreFailure test");
-        Filter<Runnable> filter1 = new GenericFilter(failureDoIt, onFailureForbidden);
-        Filter<Runnable> filter2 = new GenericFilter(successfullDoIt, onFailureForbidden);
-        Chain<Runnable> instance = new BasicChain();
+        Filter<Runnable, Object> filter1 = new GenericFilter(failureDoIt, onFailureForbidden);
+        Filter<Runnable, Object> filter2 = new GenericFilter(successfullDoIt, onFailureForbidden);
+        Chain<Runnable, Object> instance = new BasicChain();
         instance.add(filter1);
         instance.add(filter2);
         List<Object> count = new ArrayList<>();
-        instance.run(ChainBehavior.IGNORE_FAILURE, () -> count.add(new Object()));
+        InputWrapper<Runnable, Object> wrapper = new InputWrapper<>(() -> count.add(new Object()), new Object());
+        instance.run(ChainBehavior.IGNORE_FAILURE, wrapper);
         Assert.assertTrue(count.size() == 2);
     }
     
@@ -243,13 +245,14 @@ public class BasicChainTest {
     @Test
     public void testRunSuccessFullAndStopOnFailure() {
         System.out.println("RunSuccessFullAndIgnoreFailure test");
-        Filter<Runnable> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
         instance.add(filter1);
         instance.add(filter2);
         List<Object> count = new ArrayList<>();
-        instance.run(ChainBehavior.STOP_ON_FAILURE, () -> count.add(new Object()));
+        InputWrapper<Runnable, Object> wrapper = new InputWrapper<>(() -> count.add(new Object()), new Object());
+        instance.run(ChainBehavior.STOP_ON_FAILURE, wrapper);
         Assert.assertTrue(count.size() == 2);
     }
 
@@ -259,13 +262,14 @@ public class BasicChainTest {
     @Test
     public void testRunFailureAndStopOnFailure() {
         System.out.println("RunFailureAndIgnoreFailure test");
-        Filter<Runnable> filter1 = new GenericFilter(failureDoIt, onFailureAvailable);
-        Filter<Runnable> filter2 = new GenericFilter(successfullDoIt, onFailureAvailable);
-        Chain<Runnable> instance = new BasicChain();
+        Filter<Runnable, Object> filter1 = new GenericFilter(failureDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
         instance.add(filter1);
         instance.add(filter2);
         List<Object> count = new ArrayList<>();
-        instance.run(ChainBehavior.STOP_ON_FAILURE, () -> count.add(new Object()));
+        InputWrapper<Runnable, Object> wrapper = new InputWrapper<>(() -> count.add(new Object()), new Object());
+        instance.run(ChainBehavior.STOP_ON_FAILURE, wrapper);
         Assert.assertTrue(count.size() == 1);
     }
 

@@ -22,22 +22,23 @@ package org.genesis.utils.filters;
  *
  * @author jerdct
  * @param <I> the type of input
+ * @param <M> the type of metadata
  * @since 0.1
  */
-public interface Filter<I> {
+public interface Filter<I, M> {
 
     /**
      *
      * @param input
      * @return
      */
-    public FilterResult doIt(I input);
+    public FilterResult doIt(InputWrapper<I, M> input);
     
     /**
      * 
      * @param input
      */
-    public void onFailure(I input);
+    public void onFailure(InputWrapper<I, M> input);
 
 
 }

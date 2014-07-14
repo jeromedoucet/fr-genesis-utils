@@ -28,9 +28,9 @@ import java.util.function.Function;
  * @param <I>
  * @since 0.1
  */
-public class BasicChain<I> implements Chain<I> {
+public class BasicChain<I, M> implements Chain<I, M> {
 
-    private final LinkedList<Filter<I>> chain;
+    private final LinkedList<Filter<I, M>> chain;
 
     /**
      * Basically the constrctor.
@@ -40,25 +40,25 @@ public class BasicChain<I> implements Chain<I> {
     }
 
     @Override
-    public Chain<I> add(Filter<I> filter) {
+    public Chain<I, M> add(Filter<I, M> filter) {
         chain.add(filter);
         return this;
     }
 
     @Override
-    public Chain<I> addFirst(Filter<I> filter) {
+    public Chain<I, M> addFirst(Filter<I, M> filter) {
         chain.addFirst(filter);
         return this;
     }
 
     @Override
-    public Chain<I> addLast(Filter<I> filter) {
+    public Chain<I, M> addLast(Filter<I, M> filter) {
         chain.addLast(filter);
         return this;
     }
 
     @Override
-    public Chain<I> addBefore(Filter<I> filter, Filter<I> referenceElement) {
+    public Chain<I, M> addBefore(Filter<I, M> filter, Filter<I, M> referenceElement) {
         int index = chain.indexOf(referenceElement);
         if (index != -1) {
             chain.add(index, filter);
@@ -69,7 +69,7 @@ public class BasicChain<I> implements Chain<I> {
     }
 
     @Override
-    public Chain<I> addAfter(Filter<I> filter, Filter<I> referenceElement) {
+    public Chain<I, M> addAfter(Filter<I, M> filter, Filter<I, M> referenceElement) {
         int index = chain.indexOf(referenceElement);
         if (index != -1) {
             chain.add(index + 1, filter);
@@ -80,19 +80,19 @@ public class BasicChain<I> implements Chain<I> {
     }
 
     @Override
-    public Chain<I> removeFirst() {
+    public Chain<I, M> removeFirst() {
         chain.pollFirst();
         return this;
     }
 
     @Override
-    public Chain<I> removeLast() {
+    public Chain<I, M> removeLast() {
         chain.pollLast();
         return this;
     }
 
     @Override
-    public Chain<I> remove(int index) {
+    public Chain<I, M> remove(int index) {
         if (index > -1 && index < chain.size()) {
             chain.remove(index);
         }
@@ -100,7 +100,7 @@ public class BasicChain<I> implements Chain<I> {
     }
 
     @Override
-    public void run(ChainBehavior behavior, I input) {
+    public void run(ChainBehavior behavior, InputWrapper<I, M> input) {
         if (behavior != null) {
             switch (behavior) {
                 case IGNORE_FAILURE:
@@ -119,8 +119,8 @@ public class BasicChain<I> implements Chain<I> {
         }
     }
 
-    private void doRun(Function<FilterResult, Boolean> Continuefunction, I input) {
-        Filter<I> element;
+    private void doRun(Function<FilterResult, Boolean> Continuefunction, InputWrapper<I, M> input) {
+        Filter<I, M> element;
         while ((element = chain.poll()) != null) {
             if (!Continuefunction.apply(element.doIt(input))) {
                 element.onFailure(input);
@@ -131,7 +131,7 @@ public class BasicChain<I> implements Chain<I> {
     }
 
     @Override
-    public List<Filter<I>> toList() {
+    public List<Filter<I, M>> toList() {
         return chain;
     }
 
@@ -150,7 +150,7 @@ public class BasicChain<I> implements Chain<I> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BasicChain<?> other = (BasicChain<?>) obj;
+        final BasicChain<?, ?> other = (BasicChain<?, ?>) obj;
         if (!Objects.equals(this.chain, other.chain)) {
             return false;
         }

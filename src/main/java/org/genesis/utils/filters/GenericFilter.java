@@ -25,12 +25,13 @@ import java.util.function.Function;
  *
  * @author jerdct
  * @param <I>
+ * @param <M>
  * @since 0.1
  */
-public class GenericFilter<I> implements Filter<I> {
+public class GenericFilter<I, M> implements Filter<I, M> {
 
-    private final Function<I, FilterResult> doIt;
-    private final Consumer<I> onFailure;
+    private final Function<InputWrapper<I, M>, FilterResult> doIt;
+    private final Consumer<InputWrapper<I, M>> onFailure;
 
     /**
      *
@@ -39,14 +40,14 @@ public class GenericFilter<I> implements Filter<I> {
      * @param doIt
      * @param onFailure
      */
-    public GenericFilter(Function<I, FilterResult> doIt, Consumer<I> onFailure) {
+    public GenericFilter(Function<InputWrapper<I, M>, FilterResult> doIt, Consumer<InputWrapper<I, M>> onFailure) {
         Objects.requireNonNull(doIt);
         this.doIt = doIt;
         this.onFailure = onFailure;
     }
 
     @Override
-    public FilterResult doIt(I input) {
+    public FilterResult doIt(InputWrapper<I, M> input) {
         if (input != null) {
             return doIt.apply(input);
         } else {
@@ -57,7 +58,7 @@ public class GenericFilter<I> implements Filter<I> {
     }
 
     @Override
-    public void onFailure(I input) {
+    public void onFailure(InputWrapper<I, M> input) {
         if (onFailure != null && input != null) {
             onFailure.accept(input);
         }
@@ -84,7 +85,7 @@ public class GenericFilter<I> implements Filter<I> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final GenericFilter<?> other = (GenericFilter<?>) obj;
+        final GenericFilter<?, ?> other = (GenericFilter<?, ?>) obj;
         if (!Objects.equals(this.doIt, other.doIt)) {
             return false;
         }

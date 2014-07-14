@@ -24,30 +24,31 @@ import java.util.List;
  *
  * @author jerdct
  * @param <I> the type of input for treatment
+ * @param <M>
  * @since 0.1
  */
-public interface Chain<I> {
+public interface Chain<I, M> {
 
     /**
      *
      * @param filter
      * @return
      */
-    public Chain<I> add(Filter<I> filter);
+    public Chain<I, M> add(Filter<I, M> filter);
 
     /**
      *
      * @param filter
      * @return
      */
-    public Chain<I> addFirst(Filter<I> filter);
+    public Chain<I, M> addFirst(Filter<I, M> filter);
 
     /**
      *
      * @param filter
      * @return
      */
-    public Chain<I> addLast(Filter<I> filter);
+    public Chain<I, M> addLast(Filter<I, M> filter);
 
     /**
      *
@@ -58,7 +59,7 @@ public interface Chain<I> {
      * @param referenceElement
      * @return
      */
-    public Chain<I> addBefore(Filter<I> filter, Filter<I> referenceElement);
+    public Chain<I, M> addBefore(Filter<I, M> filter, Filter<I, M> referenceElement);
 
     /**
      *
@@ -69,7 +70,7 @@ public interface Chain<I> {
      * @param referenceElement
      * @return
      */
-    public Chain<I> addAfter(Filter<I> filter, Filter<I> referenceElement);
+    public Chain<I, M> addAfter(Filter<I, M> filter, Filter<I, M> referenceElement);
 
     /**
      *
@@ -77,7 +78,7 @@ public interface Chain<I> {
      *
      * @return
      */
-    public Chain<I> removeFirst();
+    public Chain<I, M> removeFirst();
 
     /**
      *
@@ -85,7 +86,7 @@ public interface Chain<I> {
      *
      * @return
      */
-    public Chain<I> removeLast();
+    public Chain<I, M> removeLast();
 
     /**
      *
@@ -95,7 +96,7 @@ public interface Chain<I> {
      * @param index
      * @return
      */
-    public Chain<I> remove(int index);
+    public Chain<I, M> remove(int index);
 
     /**
      *
@@ -104,13 +105,13 @@ public interface Chain<I> {
      * @param behavior
      * @param input
      */
-    public void run(ChainBehavior behavior, I input);
+    public void run(ChainBehavior behavior, InputWrapper<I, M> input);
 
     /**
      * Allow to get the underlying List.
      *
      * @return the underlying List.
      */
-    public List<Filter<I>> toList();
+    public List<Filter<I, M>> toList();
 
 }

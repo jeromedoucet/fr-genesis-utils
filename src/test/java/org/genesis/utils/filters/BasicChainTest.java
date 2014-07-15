@@ -53,24 +53,24 @@ public class BasicChainTest {
 
     @Before
     public void setUp() {
-        successfullDoIt = (InputWrapper<Runnable, Object> w) -> {
+        successfullDoIt = (w) -> {
             w.getInput().run();
             Assert.assertTrue(true);
             return () -> {
                 return true;
             };
         };
-        failureDoIt = (InputWrapper<Runnable, Object> w) -> {
+        failureDoIt = (w) -> {
             w.getInput().run();
             Assert.assertTrue(true);
             return () -> {
                 return false;
             };
         };
-        onFailureAvailable = (InputWrapper<Runnable, Object> w) -> {
+        onFailureAvailable = (w) -> {
             Assert.assertTrue(true);
         };
-        onFailureForbidden = (InputWrapper<Runnable, Object> w) -> {
+        onFailureForbidden = (w) -> {
             Assert.fail();
         };
     }

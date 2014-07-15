@@ -104,12 +104,12 @@ public class BasicChain<I, M> implements Chain<I, M> {
         if (behavior != null) {
             switch (behavior) {
                 case IGNORE_FAILURE:
-                    doRun((FilterResult res) -> {
+                    doRun((res) -> {
                         return true;
                     }, input);
                     break;
                 case STOP_ON_FAILURE:
-                    doRun((FilterResult res) -> {
+                    doRun((res) -> {
                         return res.isSuccess();
                     }, input);
                     break;

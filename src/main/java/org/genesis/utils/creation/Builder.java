@@ -13,32 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.filters;
+package org.genesis.utils.creation;
+
+import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  *
- * A filter is a generic class design to perform actions chained in a
- * {@link  Chain Chain}.
+ * Builder pattern implementation.
  *
  * @author jerdct
- * @param <I> the type of input
- * @param <M> the type of metadata
- * @since 0.1
+ * @param <T> the Buildable
+ * @since 0.2
  */
-public interface Filter<I, M> {
+public class Builder<T extends Buildable> {
 
     /**
      *
-     * @param input
-     * @return
+     * Used the given supplier for getting a Buildable a build it. The
+     * Supplier will permit to add some operation before calling
+     * {@link Buildable#build() build()}.
+     *
+     * @param supplier
+     * @return the Buildable
      */
-    public FilterResult doIt(InputWrapper<I, M> input);
-    
-    /**
-     * 
-     * @param input
-     */
-    public void onFailure(InputWrapper<I, M> input);
-
+    public T build(Supplier<T> supplier) {
+        Objects.requireNonNull(supplier);
+        T configurable = supplier.get();
+        configurable.build();
+        return configurable;
+    }
 
 }

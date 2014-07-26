@@ -13,32 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.filters;
+package org.genesis.utils.creation;
 
 /**
  *
- * A filter is a generic class design to perform actions chained in a
- * {@link  Chain Chain}.
+ * A Buildable can be created through a {@link Builder Builder}. 
  *
  * @author jerdct
- * @param <I> the type of input
- * @param <M> the type of metadata
- * @since 0.1
+ * @since 0.2
  */
-public interface Filter<I, M> {
+public interface Buildable {
 
     /**
      *
-     * @param input
-     * @return
+     * build the Buildable Object.
      */
-    public FilterResult doIt(InputWrapper<I, M> input);
-    
-    /**
-     * 
-     * @param input
-     */
-    public void onFailure(InputWrapper<I, M> input);
-
+    public void build();
 
 }

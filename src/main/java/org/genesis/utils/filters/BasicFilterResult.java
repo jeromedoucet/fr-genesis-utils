@@ -13,32 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.genesis.utils.filters;
 
 /**
- *
- * A filter is a generic class design to perform actions chained in a
- * {@link  Chain Chain}.
+ * 
+ * Very simple implementation of FilterResult.
  *
  * @author jerdct
- * @param <I> the type of input
- * @param <M> the type of metadata
- * @since 0.1
  */
-public interface Filter<I, M> {
-
-    /**
-     *
-     * @param input
-     * @return
-     */
-    public FilterResult doIt(InputWrapper<I, M> input);
+public class BasicFilterResult implements FilterResult{
+    
+    private boolean result;
     
     /**
-     * 
-     * @param input
+     * The constructor
+     * @param result true if success, false otherwise.
      */
-    public void onFailure(InputWrapper<I, M> input);
+    public BasicFilterResult(boolean result){
+        this.result = result;
+    }
 
-
+    @Override
+    public boolean isSuccess() {
+        return result;
+    }
+    
 }

@@ -28,7 +28,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * 
+ *
  * BasicSynchChain test class
  *
  * @author jerdct
@@ -237,8 +237,7 @@ public class BasicChainTest {
         instance.run(ChainBehavior.IGNORE_FAILURE, wrapper);
         Assert.assertTrue(count.size() == 2);
     }
-    
-    
+
     /**
      * Test of run method, of class Chain.
      */
@@ -271,6 +270,27 @@ public class BasicChainTest {
         InputWrapper<Runnable, Object> wrapper = new InputWrapper<>(() -> count.add(new Object()), new Object());
         instance.run(ChainBehavior.STOP_ON_FAILURE, wrapper);
         Assert.assertTrue(count.size() == 1);
+    }
+
+    @Test
+    public void testRun2Times() {
+        System.out.println("RunSuccessFullAndIgnoreFailure test");
+        Filter<Runnable, Object> filter1 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Filter<Runnable, Object> filter2 = new GenericFilter(successfullDoIt, onFailureAvailable);
+        Chain<Runnable, Object> instance = new BasicChain();
+        instance.add(filter1);
+        instance.add(filter2);
+        List<Object> count = new ArrayList<>();
+        InputWrapper<Runnable, Object> wrapper = new InputWrapper<>(() -> count.add(new Object()), new Object());
+        instance.run(ChainBehavior.STOP_ON_FAILURE, wrapper);
+        Assert.assertTrue(count.size() == 2);
+        /*
+         * Second run
+         */
+        List<Object> count2 = new ArrayList<>();
+        InputWrapper<Runnable, Object> wrapper2 = new InputWrapper<>(() -> count2.add(new Object()), new Object());
+        instance.run(ChainBehavior.STOP_ON_FAILURE, wrapper2);
+        Assert.assertTrue(count2.size() == 2);
     }
 
 }

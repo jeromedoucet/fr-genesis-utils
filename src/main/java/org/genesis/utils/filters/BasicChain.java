@@ -120,8 +120,7 @@ public class BasicChain<I, M> implements Chain<I, M> {
     }
 
     private void doRun(Function<FilterResult, Boolean> Continuefunction, InputWrapper<I, M> input) {
-        Filter<I, M> element;
-        while ((element = chain.poll()) != null) {
+        for ( Filter<I, M> element : chain) {
             if (!Continuefunction.apply(element.doIt(input))) {
                 element.onFailure(input);
                 break;

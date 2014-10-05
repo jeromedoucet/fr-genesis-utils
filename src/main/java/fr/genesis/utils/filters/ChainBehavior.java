@@ -13,32 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.filters;
+
+package fr.genesis.utils.filters;
 
 /**
- *
- * A filter is a generic class design to perform actions chained in a
- * {@link  Chain Chain}.
+ * 
+ * Enumeration of different behavior possible for a {@link Chain Chain}.
  *
  * @author jerdct
- * @param <I> the type of input
- * @param <M> the type of metadata
  * @since 0.1
  */
-public interface Filter<I, M> {
-
-    /**
-     *
-     * @param input
-     * @return
-     */
-    public FilterResult doIt(InputWrapper<I, M> input);
+public enum ChainBehavior {
     
-    /**
-     * 
-     * @param input
-     */
-    public void onFailure(InputWrapper<I, M> input);
-
-
+    IGNORE_FAILURE,
+    STOP_ON_FAILURE;
+    
 }

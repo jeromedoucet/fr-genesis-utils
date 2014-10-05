@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.resources;
+package fr.genesis.utils.resources;
 
-import org.genesis.utils.resources.ResourcesIdentifier;
+import fr.genesis.utils.resources.ResourcesIdentifier;
 import org.junit.Assert;
 import org.junit.Test;
 

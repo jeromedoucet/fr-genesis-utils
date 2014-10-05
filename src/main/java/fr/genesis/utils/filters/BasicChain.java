@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.filters;
+package fr.genesis.utils.filters;
 
 import java.util.LinkedList;
 import java.util.List;

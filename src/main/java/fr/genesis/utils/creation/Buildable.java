@@ -13,24 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.filters;
+package fr.genesis.utils.creation;
 
 /**
  *
- * The result of a {@link Filter#filter(java.lang.Object) filter()} call.
+ * A Buildable can be created through a {@link Builder Builder}. 
  *
  * @author jerdct
- * @since 0.1
+ * @since 0.2
  */
-@FunctionalInterface
-public interface FilterResult {
+public interface Buildable {
 
     /**
      *
-     * Allow to simply get the result.
-     *
-     * @return true if success, false otherwise
+     * build the Buildable Object.
      */
-    public boolean isSuccess();
+    public void build();
 
 }

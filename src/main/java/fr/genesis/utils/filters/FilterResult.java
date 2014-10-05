@@ -13,19 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.genesis.utils.filters;
+package fr.genesis.utils.filters;
 
 /**
- * 
- * Enumeration of different behavior possible for a {@link Chain Chain}.
+ *
+ * The result of a {@link Filter#filter(java.lang.Object) filter()} call.
  *
  * @author jerdct
  * @since 0.1
  */
-public enum ChainBehavior {
-    
-    IGNORE_FAILURE,
-    STOP_ON_FAILURE;
-    
+@FunctionalInterface
+public interface FilterResult {
+
+    /**
+     *
+     * Allow to simply get the result.
+     *
+     * @return true if success, false otherwise
+     */
+    public boolean isSuccess();
+
 }

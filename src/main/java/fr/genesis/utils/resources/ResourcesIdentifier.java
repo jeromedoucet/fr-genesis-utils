@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.resources;
+package fr.genesis.utils.resources;
 
 import java.util.Objects;
 
@@ -49,7 +49,7 @@ public final class ResourcesIdentifier<T> {
      * @param id the value of the identifier itself.
      * @return
      */
-    protected static <V> ResourcesIdentifier<V> getIdentifier(V id) {
+    public static <V> ResourcesIdentifier<V> getIdentifier(V id) {
         return new ResourcesIdentifier<>(id);
     }
 

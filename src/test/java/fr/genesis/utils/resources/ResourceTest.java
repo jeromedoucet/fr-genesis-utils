@@ -13,35 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.creation;
+package fr.genesis.utils.resources;
 
-import java.util.Objects;
-import java.util.function.Supplier;
+import fr.genesis.utils.resources.Resource;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  *
- * Builder pattern implementation.
+ * Tests for Resource class.
  *
  * @author jerdct
- * @param <T> the Buildable
- * @since 0.2
  */
-public class Builder<T extends Buildable> {
+public class ResourceTest {
 
     /**
-     *
-     * Used the given supplier for getting a Buildable a build it. The
-     * Supplier will permit to add some operation before calling
-     * {@link Buildable#build() build()}.
-     *
-     * @param supplier
-     * @return the Buildable
+     * Dummy equality test...
      */
-    public T build(Supplier<T> supplier) {
-        Objects.requireNonNull(supplier);
-        T configurable = supplier.get();
-        configurable.build();
-        return configurable;
+    @Test
+    public void dummyTest() {
+        //given
+        String identifier = "id";
+        Object resource = new Object();
+
+        //when
+        Resource simpleResource = Resource.buildResource(identifier, resource);
+
+        //then
+        Assert.assertEquals(simpleResource.getResourceData(), resource);
+        Assert.assertEquals(simpleResource.getIdentifier().getUnderlyingValue(),
+                identifier);
     }
 
 }

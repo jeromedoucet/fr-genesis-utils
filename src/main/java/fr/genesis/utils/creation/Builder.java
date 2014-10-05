@@ -13,21 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.creation;
+package fr.genesis.utils.creation;
+
+import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  *
- * A Buildable can be created through a {@link Builder Builder}. 
+ * Builder pattern implementation.
  *
  * @author jerdct
+ * @param <T> the Buildable
  * @since 0.2
  */
-public interface Buildable {
+public class Builder<T extends Buildable> {
 
     /**
      *
-     * build the Buildable Object.
+     * Used the given supplier for getting a Buildable a build it. The
+     * Supplier will permit to add some operation before calling
+     * {@link Buildable#build() build()}.
+     *
+     * @param supplier
+     * @return the Buildable
      */
-    public void build();
+    public T build(Supplier<T> supplier) {
+        Objects.requireNonNull(supplier);
+        T configurable = supplier.get();
+        configurable.build();
+        return configurable;
+    }
 
 }

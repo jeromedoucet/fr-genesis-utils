@@ -13,8 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.genesis.utils.filters;
+package fr.genesis.utils.filters;
 
+import fr.genesis.utils.filters.ChainBehavior;
+import fr.genesis.utils.filters.BasicChain;
+import fr.genesis.utils.filters.GenericFilter;
+import fr.genesis.utils.filters.FilterResult;
+import fr.genesis.utils.filters.Chain;
+import fr.genesis.utils.filters.Filter;
+import fr.genesis.utils.filters.InputWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
